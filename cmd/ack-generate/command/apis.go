@@ -100,6 +100,9 @@ func generateAPIs(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
+	for _, crd := range crds {
+		fmt.Printf("CRD is %+v\n", *crd)
+	}
 	typeDefs, _, err := g.GetTypeDefs()
 	if err != nil {
 		return err

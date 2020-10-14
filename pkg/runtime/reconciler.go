@@ -141,6 +141,7 @@ func (r *reconciler) sync(
 	// interface needs to get some methods that return schema relationships,
 	// first though
 
+	// rmInstance := rm.(*)
 	latest, err := rm.ReadOne(ctx, desired)
 	if err != nil {
 		if err != ackerr.NotFound {
@@ -157,6 +158,8 @@ func (r *reconciler) sync(
 		if err = r.setResourceManaged(ctx, desired); err != nil {
 			return err
 		}
+		// if Adopted tag as adopted and managed in the desired
+		// Also label it in AWS
 
 		latest, err = rm.Create(ctx, desired)
 		if err != nil {

@@ -151,6 +151,7 @@ func (d *resourceDescriptor) MarkManaged(
 		panic("nil RuntimeMetaObject in AWSResource")
 	}
 	k8sctrlutil.AddFinalizer(obj, finalizerString)
+	// this is where we should add a managed label on the AWS resource.
 }
 
 // MarkUnmanaged removes the supplied resource from management by ACK.  What

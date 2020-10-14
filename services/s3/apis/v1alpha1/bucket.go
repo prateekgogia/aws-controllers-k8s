@@ -22,15 +22,16 @@ import (
 
 // BucketSpec defines the desired state of Bucket
 type BucketSpec struct {
-	ACL                        *string                    `json:"acl,omitempty"`
-	CreateBucketConfiguration  *CreateBucketConfiguration `json:"createBucketConfiguration,omitempty"`
-	GrantFullControl           *string                    `json:"grantFullControl,omitempty"`
-	GrantRead                  *string                    `json:"grantRead,omitempty"`
-	GrantReadACP               *string                    `json:"grantReadACP,omitempty"`
-	GrantWrite                 *string                    `json:"grantWrite,omitempty"`
-	GrantWriteACP              *string                    `json:"grantWriteACP,omitempty"`
-	Name                       *string                    `json:"name,omitempty"`
-	ObjectLockEnabledForBucket *bool                      `json:"objectLockEnabledForBucket,omitempty"`
+	ACL *string `json:"acl,omitempty"`
+	CreateBucketConfiguration *CreateBucketConfiguration `json:"createBucketConfiguration,omitempty"`
+	GrantFullControl *string `json:"grantFullControl,omitempty"`
+	GrantRead *string `json:"grantRead,omitempty"`
+	GrantReadACP *string `json:"grantReadACP,omitempty"`
+	GrantWrite *string `json:"grantWrite,omitempty"`
+	GrantWriteACP *string `json:"grantWriteACP,omitempty"`
+	Name *string `json:"name,omitempty"`
+	ObjectLockEnabledForBucket *bool `json:"objectLockEnabledForBucket,omitempty"`
+	Tags map[string]*string `json:"tags,omitempty"`
 }
 
 // BucketStatus defines the observed state of Bucket
@@ -44,7 +45,7 @@ type BucketStatus struct {
 	// the various terminal states of the CR and its backend AWS service API
 	// resource
 	Conditions []*ackv1alpha1.Condition `json:"conditions"`
-	Location   *string                  `json:"location,omitempty"`
+	Location *string `json:"location,omitempty"`
 }
 
 // Bucket is the Schema for the Buckets API
@@ -53,8 +54,8 @@ type BucketStatus struct {
 type Bucket struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BucketSpec   `json:"spec,omitempty"`
-	Status            BucketStatus `json:"status,omitempty"`
+	Spec   BucketSpec   `json:"spec,omitempty"`
+	Status BucketStatus `json:"status,omitempty"`
 }
 
 // BucketList contains a list of Bucket
@@ -62,7 +63,7 @@ type Bucket struct {
 type BucketList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Bucket `json:"items"`
+	Items []Bucket `json:"items"`
 }
 
 func init() {

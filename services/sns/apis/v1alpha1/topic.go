@@ -23,11 +23,11 @@ import (
 // TopicSpec defines the desired state of Topic
 type TopicSpec struct {
 	DeliveryPolicy *string `json:"deliveryPolicy,omitempty"`
-	DisplayName    *string `json:"displayName,omitempty"`
+	DisplayName *string `json:"displayName,omitempty"`
 	KMSMasterKeyID *string `json:"kmsMasterKeyID,omitempty"`
-	Name           *string `json:"name,omitempty"`
-	Policy         *string `json:"policy,omitempty"`
-	Tags           []*Tag  `json:"tags,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Policy *string `json:"policy,omitempty"`
+	Tags map[string]*string `json:"tags,omitempty"`
 }
 
 // TopicStatus defines the observed state of Topic
@@ -40,9 +40,9 @@ type TopicStatus struct {
 	// contains a collection of `ackv1alpha1.Condition` objects that describe
 	// the various terminal states of the CR and its backend AWS service API
 	// resource
-	Conditions              []*ackv1alpha1.Condition `json:"conditions"`
-	EffectiveDeliveryPolicy *string                  `json:"effectiveDeliveryPolicy,omitempty"`
-	Owner                   *string                  `json:"owner,omitempty"`
+	Conditions []*ackv1alpha1.Condition `json:"conditions"`
+	EffectiveDeliveryPolicy *string `json:"effectiveDeliveryPolicy,omitempty"`
+	Owner *string `json:"owner,omitempty"`
 }
 
 // Topic is the Schema for the Topics API
@@ -51,8 +51,8 @@ type TopicStatus struct {
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              TopicSpec   `json:"spec,omitempty"`
-	Status            TopicStatus `json:"status,omitempty"`
+	Spec   TopicSpec   `json:"spec,omitempty"`
+	Status TopicStatus `json:"status,omitempty"`
 }
 
 // TopicList contains a list of Topic
@@ -60,7 +60,7 @@ type Topic struct {
 type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Topic `json:"items"`
+	Items []Topic `json:"items"`
 }
 
 func init() {

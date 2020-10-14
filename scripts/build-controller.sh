@@ -94,7 +94,7 @@ if [ -n "$ACK_GENERATE_CONFIG_PATH" ]; then
     ag_args="$ag_args --generator-config-path $ACK_GENERATE_CONFIG_PATH"
     apis_args="$apis_args --generator-config-path $ACK_GENERATE_CONFIG_PATH"
 fi
-
+set -x
 echo "Building Kubernetes API objects for $SERVICE"
 $ACK_GENERATE_BIN_PATH $apis_args
 if [ $? -ne 0 ]; then

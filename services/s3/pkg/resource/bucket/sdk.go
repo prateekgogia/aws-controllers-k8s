@@ -112,6 +112,7 @@ func (rm *resourceManager) sdkCreate(
 	// the original Kubernetes object we passed to the function
 	ko := r.ko.DeepCopy()
 
+	// Call rm.tagapi to apply tag to the resource, tags are present in r.ko.Bucket.Tags object
 	if resp.Location != nil {
 		ko.Status.Location = resp.Location
 	}

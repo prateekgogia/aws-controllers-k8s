@@ -22,10 +22,11 @@ import (
 
 // PlatformEndpointSpec defines the desired state of PlatformEndpoint
 type PlatformEndpointSpec struct {
-	Attributes             map[string]*string `json:"attributes,omitempty"`
-	CustomUserData         *string            `json:"customUserData,omitempty"`
-	PlatformApplicationARN *string            `json:"platformApplicationARN,omitempty"`
-	Token                  *string            `json:"token,omitempty"`
+	Attributes map[string]*string `json:"attributes,omitempty"`
+	CustomUserData *string `json:"customUserData,omitempty"`
+	PlatformApplicationARN *string `json:"platformApplicationARN,omitempty"`
+	Token *string `json:"token,omitempty"`
+	Tags map[string]*string `json:"tags,omitempty"`
 }
 
 // PlatformEndpointStatus defines the observed state of PlatformEndpoint
@@ -38,8 +39,8 @@ type PlatformEndpointStatus struct {
 	// contains a collection of `ackv1alpha1.Condition` objects that describe
 	// the various terminal states of the CR and its backend AWS service API
 	// resource
-	Conditions  []*ackv1alpha1.Condition `json:"conditions"`
-	EndpointARN *string                  `json:"endpointARN,omitempty"`
+	Conditions []*ackv1alpha1.Condition `json:"conditions"`
+	EndpointARN *string `json:"endpointARN,omitempty"`
 }
 
 // PlatformEndpoint is the Schema for the PlatformEndpoints API
@@ -48,8 +49,8 @@ type PlatformEndpointStatus struct {
 type PlatformEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PlatformEndpointSpec   `json:"spec,omitempty"`
-	Status            PlatformEndpointStatus `json:"status,omitempty"`
+	Spec   PlatformEndpointSpec   `json:"spec,omitempty"`
+	Status PlatformEndpointStatus `json:"status,omitempty"`
 }
 
 // PlatformEndpointList contains a list of PlatformEndpoint
@@ -57,7 +58,7 @@ type PlatformEndpoint struct {
 type PlatformEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []PlatformEndpoint `json:"items"`
+	Items []PlatformEndpoint `json:"items"`
 }
 
 func init() {

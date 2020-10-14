@@ -16,18 +16,18 @@
 package v1alpha1
 
 type Endpoint struct {
-	Attributes  map[string]*string `json:"attributes,omitempty"`
-	EndpointARN *string            `json:"endpointARN,omitempty"`
+	Attributes map[string]*string `json:"attributes,omitempty"`
+	EndpointARN *string `json:"endpointARN,omitempty"`
 }
 
 type MessageAttributeValue struct {
-	DataType    *string `json:"dataType,omitempty"`
+	DataType *string `json:"dataType,omitempty"`
 	StringValue *string `json:"stringValue,omitempty"`
 }
 
 type PlatformApplication_SDK struct {
-	Attributes             map[string]*string `json:"attributes,omitempty"`
-	PlatformApplicationARN *string            `json:"platformApplicationARN,omitempty"`
+	Attributes map[string]*string `json:"attributes,omitempty"`
+	PlatformApplicationARN *string `json:"platformApplicationARN,omitempty"`
 }
 
 type Subscription struct {
@@ -35,7 +35,7 @@ type Subscription struct {
 }
 
 type Tag struct {
-	Key   *string `json:"key,omitempty"`
+	Key *string `json:"key,omitempty"`
 	Value *string `json:"value,omitempty"`
 }
 

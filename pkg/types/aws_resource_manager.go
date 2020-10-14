@@ -15,8 +15,9 @@ package types
 
 import (
 	"context"
-	ackcompare "github.com/aws/aws-controllers-k8s/pkg/compare"
+
 	ackv1alpha1 "github.com/aws/aws-controllers-k8s/apis/core/v1alpha1"
+	ackcompare "github.com/aws/aws-controllers-k8s/pkg/compare"
 )
 
 // AWSResourceManager is responsible for providing a consistent way to perform
@@ -45,7 +46,7 @@ type AWSResourceManager interface {
 	// higher-level reonciler determines whether or not the desired differs
 	// from the latest observed and decides whether to call the resource
 	// manager's Update method
-	Update(context.Context, /*desired*/ AWSResource, /*latest*/ AWSResource, *ackcompare.Reporter) (AWSResource, error)
+	Update(context.Context /*desired*/, AWSResource /*latest*/, AWSResource, *ackcompare.Reporter) (AWSResource, error)
 
 	// Delete attempts to destroy the supplied AWSResource in the backend AWS
 	// service API.
@@ -55,6 +56,14 @@ type AWSResourceManager interface {
 	// GetAttributes operations but all we have (for new CRs at least) is a
 	// name for the resource
 	ARNFromName(string) string
+	// TagManager
+	TagManager
+}
+
+type TagManager interface {
+	SetTag(key, value string) error
+	UnsetTag(key) error
+	GetTags() (map[key]string, error)
 }
 
 // AWSResourceManagerFactory returns an AWSResourceManager that can be used to

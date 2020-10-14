@@ -18,12 +18,14 @@ OPTIND=1
 CLUSTER_NAME_BASE="test"
 AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID:-""}
 AWS_REGION=${AWS_REGION:-"us-west-2"}
-AWS_ROLE_ARN=${AWS_ROLE_ARN:-""}
+AWS_ROLE_ARN="arn:aws:iam::526442933472:role/Admin-k8s"
 ACK_ENABLE_DEVELOPMENT_LOGGING="true"
 DELETE_CLUSTER_ARGS=""
 K8S_VERSION="1.16"
-PRESERVE=false
+PRESERVE=true
+AWS_SERVICE="s3"
 START=$(date +%s)
+TMP_DIR="/Users/pgogia/workspace/golang/src/github.com/prateekgogia/aws-controllers-k8s/scripts/../build/tmp-test-8697e319"
 TMP_DIR=""
 # VERSION is the source revision that executables and images are built from.
 VERSION=$(git describe --tags --always --dirty || echo "unknown")
@@ -67,35 +69,35 @@ Options:
 "
 
 # Process our input arguments
-while getopts "ps:r:ic:v" opt; do
-  case ${opt} in
-    p ) # PRESERVE K8s Cluster
-        PRESERVE=true
-      ;;
-    s ) # AWS Service name
-        AWS_SERVICE=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
-      ;;
-    r ) # AWS ROLE ARN
-        AWS_ROLE_ARN="${OPTARG}"
-      ;;
-    i ) # AWS Service Docker Image
-        AWS_SERVICE_DOCKER_IMG="${OPTARG}"
-      ;;
-    c ) # Cluster context directory to operate on existing cluster
-        TMP_DIR="${OPTARG}"
-      ;;
-    b ) # Base cluster name
-        CLUSTER_NAME_BASE="${OPTARG}"
-      ;;
-    v ) # K8s VERSION
-        K8S_VERSION="${OPTARG}"
-      ;;
-    \? )
-        echo "${USAGE}" 1>&2
-        exit
-      ;;
-  esac
-done
+# while getopts "p:s:r:i:c:v" opt; do
+#   case ${opt} in
+#     p ) # PRESERVE K8s Cluster
+#         PRESERVE=true
+#       ;;
+#     s ) # AWS Service name
+#         AWS_SERVICE=$(echo "${OPTARG}" | tr '[:upper:]' '[:lower:]')
+#       ;;
+#     r ) # AWS ROLE ARN
+#         AWS_ROLE_ARN="${OPTARG}"
+#       ;;
+#     i ) # AWS Service Docker Image
+#         AWS_SERVICE_DOCKER_IMG="${OPTARG}"
+#       ;;
+#     c ) # Cluster context directory to operate on existing cluster
+#         TMP_DIR="${OPTARG}"
+#       ;;
+#     b ) # Base cluster name
+#         CLUSTER_NAME_BASE="${OPTARG}"
+#       ;;
+#     v ) # K8s VERSION
+#         K8S_VERSION="${OPTARG}"
+#       ;;
+#     \? )
+#         echo "${USAGE}" 1>&2
+#         exit
+#       ;;
+#   esac
+# done
 
 if [ -z "$AWS_SERVICE" ]; then
     echo "AWS_SERVICE is not defined. Use flag -s <AWS_SERVICE> to build that docker images of that service and load into Kind"

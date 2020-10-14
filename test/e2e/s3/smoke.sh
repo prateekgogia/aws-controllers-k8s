@@ -56,14 +56,14 @@ if [ $? -eq 4 ]; then
     exit 1
 fi
 
-kubectl delete "$resource_name" 2>/dev/null
-assert_equal "0" "$?" "Expected success from kubectl delete but got $?" || exit 1
+# kubectl delete "$resource_name" 2>/dev/null
+# assert_equal "0" "$?" "Expected success from kubectl delete but got $?" || exit 1
 
-list_bucket_json
-if [ $? -ne 4 ]; then
-    echo "FAIL: expected $bucket_name to be deleted in S3"
-    kubectl logs -n ack-system "$ack_ctrl_pod_id"
-    exit 1
-fi
+# list_bucket_json
+# if [ $? -ne 4 ]; then
+#     echo "FAIL: expected $bucket_name to be deleted in S3"
+#     kubectl logs -n ack-system "$ack_ctrl_pod_id"
+#     exit 1
+# fi
 
 assert_pod_not_restarted $ack_ctrl_pod_id

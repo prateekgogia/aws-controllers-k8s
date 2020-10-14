@@ -22,17 +22,18 @@ import (
 
 // PlatformApplicationSpec defines the desired state of PlatformApplication
 type PlatformApplicationSpec struct {
-	EventDeliveryFailure      *string `json:"eventDeliveryFailure,omitempty"`
-	EventEndpointCreated      *string `json:"eventEndpointCreated,omitempty"`
-	EventEndpointDeleted      *string `json:"eventEndpointDeleted,omitempty"`
-	EventEndpointUpdated      *string `json:"eventEndpointUpdated,omitempty"`
-	FailureFeedbackRoleARN    *string `json:"failureFeedbackRoleARN,omitempty"`
-	Name                      *string `json:"name,omitempty"`
-	Platform                  *string `json:"platform,omitempty"`
-	PlatformCredential        *string `json:"platformCredential,omitempty"`
-	PlatformPrincipal         *string `json:"platformPrincipal,omitempty"`
-	SuccessFeedbackRoleARN    *string `json:"successFeedbackRoleARN,omitempty"`
+	EventDeliveryFailure *string `json:"eventDeliveryFailure,omitempty"`
+	EventEndpointCreated *string `json:"eventEndpointCreated,omitempty"`
+	EventEndpointDeleted *string `json:"eventEndpointDeleted,omitempty"`
+	EventEndpointUpdated *string `json:"eventEndpointUpdated,omitempty"`
+	FailureFeedbackRoleARN *string `json:"failureFeedbackRoleARN,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Platform *string `json:"platform,omitempty"`
+	PlatformCredential *string `json:"platformCredential,omitempty"`
+	PlatformPrincipal *string `json:"platformPrincipal,omitempty"`
+	SuccessFeedbackRoleARN *string `json:"successFeedbackRoleARN,omitempty"`
 	SuccessFeedbackSampleRate *string `json:"successFeedbackSampleRate,omitempty"`
+	Tags map[string]*string `json:"tags,omitempty"`
 }
 
 // PlatformApplicationStatus defines the observed state of PlatformApplication
@@ -54,8 +55,8 @@ type PlatformApplicationStatus struct {
 type PlatformApplication struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              PlatformApplicationSpec   `json:"spec,omitempty"`
-	Status            PlatformApplicationStatus `json:"status,omitempty"`
+	Spec   PlatformApplicationSpec   `json:"spec,omitempty"`
+	Status PlatformApplicationStatus `json:"status,omitempty"`
 }
 
 // PlatformApplicationList contains a list of PlatformApplication
@@ -63,7 +64,7 @@ type PlatformApplication struct {
 type PlatformApplicationList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []PlatformApplication `json:"items"`
+	Items []PlatformApplication `json:"items"`
 }
 
 func init() {

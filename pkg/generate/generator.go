@@ -14,6 +14,7 @@
 package generate
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 	ttpl "text/template"
@@ -22,6 +23,7 @@ import (
 	ackmodel "github.com/aws/aws-controllers-k8s/pkg/model"
 	"github.com/aws/aws-controllers-k8s/pkg/names"
 	"github.com/aws/aws-controllers-k8s/pkg/util"
+	awssdkmodel "github.com/aws/aws-sdk-go/private/model/api"
 )
 
 // Generator creates the ACK service controller Kubernetes API types (CRDs) and
@@ -83,7 +85,14 @@ func (g *Generator) GetCRDs() ([]*ackmodel.CRD, error) {
 		if inputShape == nil {
 			return nil, ackmodel.ErrNilShapePointer
 		}
+		fmt.Println("input SHape is", inputShape)
 		for memberName, memberShapeRef := range inputShape.MemberRefs {
+			if memberName == "Attributes" {
+				fmt.Printf("input SHape: %+v  ** memberName: %+v ** , memberShapeRef%+v ** \n", inputShape, memberName, memberShapeRef)
+				fmt.Printf("memberShapeRef.Shape %+v ** \n", *memberShapeRef.Shape)
+				fmt.Printf("memberShapeRef.Shape.keyRef.Shape %+v ** \n", *memberShapeRef.Shape.KeyRef.Shape)
+				fmt.Println("createop.Api ", createOp.API)
+			}
 			if memberShapeRef.Shape == nil {
 				return nil, ackmodel.ErrNilShapePointer
 			}
@@ -138,9 +147,39 @@ func (g *Generator) GetCRDs() ([]*ackmodel.CRD, error) {
 			}
 			crd.AddStatusField(memberNames, memberShapeRef)
 		}
+		stringShape := &awssdkmodel.Shape{
+			API:           createOp.API,
+			ShapeName:     "string",
+			Type:          "string",
+			OrigShapeName: "string",
+		}
+		stringShapeRef := &awssdkmodel.ShapeRef{
+			API:           createOp.API,
+			ShapeName:     "string",
+			OrigShapeName: "string",
+			Shape:         stringShape,
+		}
 
+		mapShape := &awssdkmodel.Shape{
+			API:       createOp.API,
+			ShapeName: "MapStringToString",
+			KeyRef:    *stringShapeRef,
+			ValueRef:  *stringShapeRef,
+			Type:      "map",
+		}
+		mapShapeRef := &awssdkmodel.ShapeRef{
+			API:           createOp.API,
+			ShapeName:     "MapStringToString",
+			Documentation: "Tags for resources",
+			Shape:         mapShape,
+			OrigShapeName: "MapStringToString",
+		}
+
+		tags := names.New("tags")
+		crd.AddSpecField(tags, mapShapeRef)
 		crds = append(crds, crd)
 	}
+
 	sort.Slice(crds, func(i, j int) bool {
 		return crds[i].Names.Camel < crds[j].Names.Camel
 	})

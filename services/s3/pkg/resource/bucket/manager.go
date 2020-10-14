@@ -25,6 +25,7 @@ import (
 	acktypes "github.com/aws/aws-controllers-k8s/pkg/types"
 	"github.com/aws/aws-sdk-go/aws/session"
 
+	svcsdkapi "github.com/aws/aws-sdk-go/service/resourceGroupsTaggingAPI/s3iface"
 	svcsdk "github.com/aws/aws-sdk-go/service/s3"
 	svcsdkapi "github.com/aws/aws-sdk-go/service/s3/s3iface"
 )
@@ -49,6 +50,8 @@ type resourceManager struct {
 	// sdk is a pointer to the AWS service API interface exposed by the
 	// aws-sdk-go/services/{alias}/{alias}iface package.
 	sdkapi svcsdkapi.S3API
+	// taggingapiiface
+	tagapi svcsdkapi.resourcegroupstaggingapiiface
 }
 
 // concreteResource returns a pointer to a resource from the supplied
@@ -91,6 +94,12 @@ func (rm *resourceManager) Create(
 		// Should never happen... if it does, it's buggy code.
 		panic("resource manager's Create() method received resource with nil CR object")
 	}
+	// Add new labels to r.ko object here, this labels will be applied to the AWS resource after creation in sdkCreate
+	// if tags exist go apply these tags
+	//  add a new tag `services.k8s.aws/created=true`,
+	// 				
+		services.k8s.aws/managed=true,
+	// 					services.k8s.aws/namespace=$KUBERNETES_NAMESPACE
 	created, err := rm.sdkCreate(ctx, r)
 	if err != nil {
 		return nil, err
@@ -122,6 +131,7 @@ func (rm *resourceManager) Update(
 	if err != nil {
 		return nil, err
 	}
+	// check with diff reporter if the labels are out of sync, update labels.
 	return updated, nil
 }
 
